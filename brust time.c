@@ -1,109 +1,88 @@
-#include<stdio.h>
-#include<unistd.h>
-#include<stdlib.h>
+	#include<stdio.h>
+	int main()
+	{
+	int i,n,p[10]={1,2,3,4,5,6,7,8,9,10},min,k=1,btime=0;
+	int bt[10],temp,j,at[10],wt[10],tt[10],ta=0,sum=0;
+	float wavg=0,tavg=0,tsum=0,wsum=0;
+	printf(" -------Shortest Job First Scheduling ( NP )-------\n");
+	printf("\nEnter the No. of processes :");
+	scanf("%d",&n);
+	for(i=0;i<n;i++)
+	{
+	printf("\tEnter the burst time of %d process :",i+1);
+	scanf(" %d",&bt[i]);
+	printf("\tEnter the arrival time of %d process :",i+1);
+	scanf(" %d",&at[i]);
+	if(at[i]==0){
+	printf("Error !!!\n Kindly Provide Valid Arrival Time.\n");
+	printf("\tEnter the arrival time of %d process :",i+1);
+	scanf(" %d",&at[i]);
+	}
+	} 
+	for(i=0;i<n;i++)
+	{
+	for(j=0;j<n;j++)
+	{
+	if(at[i]<at[j])
+	{
+	temp=p[j];
+	p[j]=p[i];
+	p[i]=temp;
+	temp=at[j];
+	at[j]=at[i];
+	at[i]=temp;
+	temp=bt[j];
+	bt[j]=bt[i];
+	bt[i]=temp;
+	}
+	}
+	}
+	for(j=0;j<n;j++)
+	{
+	btime=btime+bt[j];
+	min=bt[k];
+	for(i=k;i<n;i++)
+	{
+	if (btime>=at[i] && bt[i]<min)
+	{
+	temp=p[k];
+	p[k]=p[i];
+	p[i]=temp;
+	temp=at[k];
+	at[k]=at[i];
+	at[i]=temp;
+	temp=bt[k];
+	bt[k]=bt[i];
+	bt[i]=temp;
+	}
+	}
+	k++;
+	}
+	wt[0]=0;
+	for(i=1;i<n;i++)
+	{
+	sum=sum+bt[i-1];
+	wt[i]=sum-at[i];
+	wsum=wsum+wt[i];
+	}
+	 
+	wavg=(wsum/n);
+	for(i=0;i<n;i++)
+	{
+	ta=ta+bt[i];
+	tt[i]=ta-at[i];
+	tsum=tsum+tt[i];
+	}
+	
+	tavg=(tsum/n);
+	printf("\n RESULT:-");
+	printf("\nProcess\t Burst\t Arrival\t Waiting\t Turn-around" );
+	for(i=0;i<n;i++)
+	{
+	printf("\n p%d\t %d\t %d\t\t %d\t\t\t%d",p[i],bt[i],at[i],wt[i],tt[i]);
+	}
+	printf("\n\nAVERAGE WAITING TIME : %f",wavg);
+	printf("\nAVERAGE TURN AROUND TIME : %f",tavg);
+	return 0;
+	}
 
-int main()
-{
-   int ArTime[20],BurTime[20];
-   int i,least,count=0,t,n,plus=0;
-   double WtTime=0,
-TurnaroundTime=0,CompTime;
-   int flag=0;
-   float AvgWT,Avg_TAT;
-   printf("\nEnter the total Number of Pricesses:\t");
-   Scanf("%d",&n);
-   System("clear");
-   printf("\nEnter Details of %d Processes\n",n);
-  int num;
-   int Sumburst=0;
-      for(i=0;i<n;i++)
-      {
-        A:printf("\nEnter Arrival Time:\t");
-        Scanf("%d,"&ArTime[i]);
-        if(ArTime[i]==0);
-printf("you have enter ARRIVAL TIME as 0.\n\n");
-   B:printf("nEnter a valid input:");
-     printf("\n Press2:Enter again ARRIVAL TIME");
-     printf("\n press2:to EXIT\n\n");
-     printf("(:INPUT::");
-     scanf("%d",&num);
-     switch(num)
-     {
-      case1:goto A;
-      break;
-      case2:exit(0);
-            default:
-            printf("INVALID INPUT\n\n");
-                goto B;
-                break;
-              }
-             }
-               printf("enter Burst time:\t")
-               scanf("%d",&BurTime[i];
-
-              sumburst=sumburst+BurTime[i];
-              temp[i]=BurTime[i];
-              temp[i}=burTime[i];
-      }
-
-       system("clear");
-       BurTime[19]=999999;
-       printf("\n\n\t\t::COMPLETION OF PROCESS::\n\n");
-       printf("\nprocess\t Burst Time\tWaiting Time\tTurn AroundTime");
-       int wt,TAT;
-       for(t=0;count!=n;t++)
-     {
-        least=19;
-        for(i=0;i<n;i++)
-         {
-          if((ArTime[i]<=t)&&(BurTime[i]>0))
-
-         {
-            least=i;
-      }
-      }
-            BurTime[least]--;
-            if(Burtime[least]==0)
-      {
-        count++;
-        CompTime=t+1;
-        if(count==1)
-       {
-        wt=WtTime;
-        WtTime=WtTime+CompTime-ArTime[least]-temp[least];
-        wt=WtTime-wt;
-        AvgWT=AvgWT+wt;
-        TAT=TurnAroundTime;
-        TurnAroundTime=TurnAroundTime+CompTime-ArTime[least];
-        TAT=TurnAroundTime -TAT;
-        sleep(1);
-        printf("\nP%d\t\t%d\t\t %d\t\t%d",(least+1),temp[least],wt,TAT);
-      }
-     else
-      {
-        flag++;
-        plus=plus+2;
-        wt=WtTime;
-        wtTime=WtTime+CompTime-ArTime[least]-temp[least];
-        wt=WtTime-wt+plus;
-        AvgWT=AvgWT+wt;
-        TAT=TurnAroundTime;
-        TurnAroundTime=TurnAroundTime+CompTime-ArTime[least];
-        TAT=TurnAroundTime-TAT+plus-1;
-        Avg_TAT=Avg_TAT+TAT;
-        sleep(1);
-        printf("\np%d\t\t%d\t\t %d\t\t%d",(least+1),temp[least],wt,TAT);
-      }
-     }
-      }
-        int totalexecution=sumburst+(flag*2)+1;
-        AvgWT=AvgWT/n;
-        AVG_TAT+Avg_TAT/n;
-        sleep(1);
-        printf("\n\n\nTOATL TIME OF EXECUTION:%d",totalexecution);
-        printf("\n\n||Average Waiting Time  :\t%if||\n",AvgWT);
-        sleep(1);
-        printf("||Average Turnaround Time:\t%||\n",Avg_TAT);
-        return 0;
-    }
-      
